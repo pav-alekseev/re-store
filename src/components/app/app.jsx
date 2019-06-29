@@ -1,11 +1,16 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import './app.css';
 
-import Spinner from '../spinner';
+import { HomePage, CartPage } from '../pages';
+import { withBookstoreService } from '../hoc';
 
 const App = () => (
-  <Spinner />
+  <Switch>
+    <Route path="/" component={HomePage} exact />
+    <Route path="/cart" component={CartPage} />
+  </Switch>
 );
 
-export default App;
+export default withBookstoreService()(App);
