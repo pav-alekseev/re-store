@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './error-boundry.css';
-
 import ErrorIndicator from '../error-indicator';
 
 export default class ErrorBoundry extends Component {
