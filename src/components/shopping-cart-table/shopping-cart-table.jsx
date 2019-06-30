@@ -3,7 +3,7 @@ import React from 'react';
 import './shopping-cart-table.css';
 
 const ShoppingCartTable = () => (
-  <div>
+  <div className="shopping-cart-table">
     <h2>Your Order</h2>
     <table className="table">
       <thead>
@@ -35,6 +35,10 @@ const ShoppingCartTable = () => (
         </tr>
       </tbody>
     </table>
+
+    <div className="total">
+      Total: $201
+    </div>
   </div>
 );
 
