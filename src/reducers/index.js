@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import * as actionTypes from '../action-types';
 
 const initialState = {
@@ -6,6 +7,34 @@ const initialState = {
   error: null,
   cartItems: [],
   orderTotal: 0,
+};
+
+const updateCardItems = (cartItems, item, idx) => (idx === -1
+  ? [
+    ...cartItems,
+    item,
+  ]
+  : [
+    ...cartItems.slice(0, idx),
+    item,
+    ...cartItems.slice(idx + 1),
+  ]
+);
+
+const updateCardItem = (book, item = {}) => {
+  const {
+    id = book.id,
+    title = book.title,
+    count = 0,
+    total = 0,
+  } = item;
+
+  return {
+    id,
+    title,
+    count: count + 1,
+    total: total + book.price,
+  };
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,18 +61,18 @@ const reducer = (state = initialState, action) => {
         error: action.payload,
       };
     case actionTypes.BOOK_ADDED_TO_CART:
+      const { books, cartItems } = state;
+
       const bookId = action.payload;
-      const book = state.books.find(book => book.id === bookId);
-      const newItem = {
-        id: bookId,
-        name: book.title,
-        count: 1,
-        total: book.price,
-      };
+      const book = books.find(({ id }) => id === bookId);
+      const itemIndex = cartItems.findIndex(({ id }) => id === bookId);
+      const item = cartItems[itemIndex];
+
+      const newItem = updateCardItem(book, item);
 
       return {
         ...state,
-        cartItems: [...state.cartItems, newItem],
+        cartItems: updateCardItems(cartItems, newItem, itemIndex),
       };
     default:
       return state;
