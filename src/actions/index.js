@@ -1,16 +1,16 @@
 import * as actionTypes from '../action-types';
 
 const booksRequested = () => ({
-  type: actionTypes.BOOKS_REQUESTED,
+  type: actionTypes.FETCH_BOOKS_REQUEST,
 });
 
 const booksLoaded = newBooks => ({
-  type: actionTypes.BOOKS_LOADED,
+  type: actionTypes.FETCH_BOOKS_SUCCESS,
   payload: newBooks,
 });
 
 const booksError = error => ({
-  type: actionTypes.BOOKS_ERROR,
+  type: actionTypes.FETCH_BOOKS_FAILURE,
   payload: error,
 });
 
