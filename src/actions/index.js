@@ -14,7 +14,12 @@ const booksError = error => ({
   payload: error,
 });
 
-const fetchBooks = (bookstoreService, dispatch) => async () => {
+export const bookAddedToCart = bookId => ({
+  type: actionTypes.BOOK_ADDED_TO_CART,
+  payload: bookId,
+});
+
+export const fetchBooks = (bookstoreService, dispatch) => async () => {
   dispatch(booksRequested());
 
   try {
@@ -23,8 +28,4 @@ const fetchBooks = (bookstoreService, dispatch) => async () => {
   } catch (error) {
     dispatch(booksError(error));
   }
-};
-
-export {
-  fetchBooks,
 };
