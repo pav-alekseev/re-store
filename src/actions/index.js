@@ -14,8 +14,17 @@ const booksError = error => ({
   payload: error,
 });
 
+const fetchBooks = (bookstoreService, dispatch) => async () => {
+  dispatch(booksRequested());
+
+  try {
+    const data = await bookstoreService.getBooks();
+    dispatch(booksLoaded(data));
+  } catch (error) {
+    dispatch(booksError(error));
+  }
+};
+
 export {
-  booksRequested,
-  booksLoaded,
-  booksError,
+  fetchBooks,
 };
