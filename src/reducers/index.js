@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import * as actionTypes from '../action-types';
 
 const initialState = {
@@ -9,19 +8,29 @@ const initialState = {
   orderTotal: 0,
 };
 
-const updateCardItems = (cartItems, item, idx) => (idx === -1
-  ? [
-    ...cartItems,
-    item,
-  ]
-  : [
+const updateCartItems = (cartItems, item, idx) => {
+  if (item.count === 0) {
+    return [
+      ...cartItems.slice(0, idx),
+      ...cartItems.slice(idx + 1),
+    ];
+  }
+
+  if (idx === -1) {
+    return [
+      ...cartItems,
+      item,
+    ];
+  }
+
+  return [
     ...cartItems.slice(0, idx),
     item,
     ...cartItems.slice(idx + 1),
-  ]
-);
+  ];
+};
 
-const updateCardItem = (book, item = {}) => {
+const updateCartItem = (book, item = {}, quantity) => {
   const {
     id = book.id,
     title = book.title,
@@ -32,8 +41,23 @@ const updateCardItem = (book, item = {}) => {
   return {
     id,
     title,
-    count: count + 1,
-    total: total + book.price,
+    count: count + quantity,
+    total: total + (book.price * quantity),
+  };
+};
+
+const updateOrder = (state, bookId, quantity) => {
+  const { books, cartItems } = state;
+
+  const book = books.find(({ id }) => id === bookId);
+
+  const itemIndex = cartItems.findIndex(({ id }) => id === bookId);
+  const item = cartItems[itemIndex];
+
+  const updatedItem = updateCartItem(book, item, quantity);
+  return {
+    ...state,
+    cartItems: updateCartItems(cartItems, updatedItem, itemIndex),
   };
 };
 
@@ -61,19 +85,12 @@ const reducer = (state = initialState, action) => {
         error: action.payload,
       };
     case actionTypes.BOOK_ADDED_TO_CART:
-      const { books, cartItems } = state;
-
-      const bookId = action.payload;
-      const book = books.find(({ id }) => id === bookId);
-      const itemIndex = cartItems.findIndex(({ id }) => id === bookId);
-      const item = cartItems[itemIndex];
-
-      const newItem = updateCardItem(book, item);
-
-      return {
-        ...state,
-        cartItems: updateCardItems(cartItems, newItem, itemIndex),
-      };
+      return updateOrder(state, action.payload, 1);
+    case actionTypes.BOOK_REMOVED_FROM_CART:
+      return updateOrder(state, action.payload, -1);
+    case actionTypes.ALL_BOOKS_REMOVED_FROM_CART:
+      const item = state.cartItems.find(({ id }) => id === action.payload);
+      return updateOrder(state, action.payload, -item.count);
     default:
       return state;
   }
