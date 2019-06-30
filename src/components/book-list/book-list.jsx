@@ -7,7 +7,7 @@ import BookListItem from '../book-list-item';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 import { withBookstoreService } from '../hoc';
-import { fetchBooks, bookAddedToCart} from '../../actions';
+import { fetchBooks, bookAddedToCart } from '../../actions';
 import { compose } from '../../utils';
 
 const BookList = ({ books, onAddedToCart }) => (
