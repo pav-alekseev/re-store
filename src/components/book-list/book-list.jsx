@@ -9,9 +9,9 @@ import { booksLoaded } from '../../actions';
 import { compose } from '../../utils';
 
 class BookList extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const { bookstoreService, booksLoaded } = this.props;
-    const data = bookstoreService.getBooks();
+    const data = await bookstoreService.getBooks();
 
     booksLoaded(data);
   }
