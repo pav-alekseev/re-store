@@ -19,7 +19,7 @@ class BookList extends Component {
   render() {
     const { books } = this.props;
     return (
-      <ul>
+      <ul className="list-unstyled">
         {
           books.map(book => (
             <li key={book.id}>
