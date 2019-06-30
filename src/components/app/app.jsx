@@ -8,7 +8,7 @@ import { HomePage, CartPage } from '../pages';
 import { withBookstoreService } from '../hoc';
 
 const App = () => (
-  <main role="main">
+  <main role="main" className="container">
     <ShopHeader numItems={5} total={210} />
     <Switch>
       <Route path="/" component={HomePage} exact />
