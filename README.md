@@ -1,5 +1,5 @@
 # re-store
-The project is a simple React & Redux store to buy books
+The project is a simple store to buy books written in React & Redux
 
 # Features
 * Buy books
