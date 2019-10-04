@@ -1,7 +1,7 @@
 # re-store
 The project is a simple store to buy books written in React & Redux
 
-# Features
+## Features
 * Buy books
 * Increase or decrease quantity of books in cart
 * Delete books from cart
